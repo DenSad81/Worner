@@ -2,33 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Worner : MonoBehaviour
+public class VolumeChainger : MonoBehaviour
 {
-    [SerializeField] private bool _isAlarme = false;
     [SerializeField] private float _volume = 0.0f;
     [SerializeField] private float _deltaTimeForVolume = 0.001f;
-    [SerializeField] private float _alarmeLenghtZone = 9.0f;
+
+    [SerializeField] private Signaling signaling;
     private AudioSource _audioSurse;
 
-    private void Start()
+    void Start()
     {
-        _audioSurse = this.gameObject.GetComponent<AudioSource>();
+        if (GetComponent<AudioSource>() != null)
+            _audioSurse = /*this.gameObject.*/GetComponent<AudioSource>();
+
         _audioSurse.volume = 0.0f;
+        _audioSurse.Play();
     }
 
-    private void Update()
+    void Update()
     {
-        _isAlarme = Physics2D.Raycast(this.transform.position, transform.up, _alarmeLenghtZone);
+        if ((signaling._isAlarme == false) & (_volume <= 0.0f))
+            return;
 
-        Debug.DrawRay(this.transform.position, transform.up * _alarmeLenghtZone, Color.red);
-
-        if (_isAlarme == true)
+        if (signaling._isAlarme == true)
         {
             if (_volume < 1)
                 _volume += _deltaTimeForVolume;
         }
 
-        if (_isAlarme == false)
+        if (signaling._isAlarme == false)
         {
             if (_volume > 0)
                 _volume -= _deltaTimeForVolume;
@@ -38,6 +40,5 @@ public class Worner : MonoBehaviour
 
         if (_volume <= 0.0f)
             _audioSurse.Play();
-
     }
 }

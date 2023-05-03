@@ -13,6 +13,9 @@ public class KnightMovement : MonoBehaviour
 
     private Rigidbody2D _rigitbody2DKnight;
     private Animator _animator2DKnight;
+    private const string actSpeedX = "actSpeedX";
+
+    //_animator.SetBool(IsGrounded, value);
 
     private void Start()
     {
@@ -42,7 +45,7 @@ public class KnightMovement : MonoBehaviour
         }
 
         position.x += actualSpeedX * Time.deltaTime;
-        _animator2DKnight.SetFloat("actSpeedX", actualSpeedX);
+        _animator2DKnight.SetFloat(actSpeedX, actualSpeedX);
 
         _rigitbody2DKnight.position = position;
     }

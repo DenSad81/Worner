@@ -472,6 +472,7 @@ GameObject:
   - component: {fileID: 764955293}
   - component: {fileID: 764955296}
   - component: {fileID: 764955297}
+  - component: {fileID: 764955298}
   m_Layer: 0
   m_Name: Signaling
   m_TagString: Untagged
@@ -654,10 +655,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a533d8fb259e84f8eeb3ccc420d697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isAlarme: 0
+  _alarmeLenghtZone: 9
+--- !u!114 &764955298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764955292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd71c6a5c3c78d34d9c8cd740038bbf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _volume: 0
   _deltaTimeForVolume: 0.001
-  _alarmeLenghtZone: 9
+  signaling: {fileID: 764955297}
 --- !u!1001 &780506533
 PrefabInstance:
   m_ObjectHideFlags: 0
