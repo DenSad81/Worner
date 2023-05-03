@@ -470,10 +470,10 @@ GameObject:
   m_Component:
   - component: {fileID: 764955294}
   - component: {fileID: 764955293}
-  - component: {fileID: 764955295}
   - component: {fileID: 764955296}
+  - component: {fileID: 764955297}
   m_Layer: 0
-  m_Name: Worner
+  m_Name: Signaling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -546,22 +546,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
---- !u!114 &764955295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 764955292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12478f7f77f820140bbfe8f1c46a69ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isAlarme: 1
-  _volume: 0
-  _deltaTimeForVolume: 0.001
-  _alarmeLenghtZone: 9
 --- !u!82 &764955296
 AudioSource:
   m_ObjectHideFlags: 0
@@ -658,6 +642,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &764955297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764955292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a533d8fb259e84f8eeb3ccc420d697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isAlarme: 0
+  _volume: 0
+  _deltaTimeForVolume: 0.001
+  _alarmeLenghtZone: 9
 --- !u!1001 &780506533
 PrefabInstance:
   m_ObjectHideFlags: 0
