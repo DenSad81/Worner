@@ -2,43 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
+
 public class VolumeChainger : MonoBehaviour
 {
-    [SerializeField] private float _volume = 0.0f;
     [SerializeField] private float _deltaTimeForVolume = 0.001f;
+    [SerializeField] private Signaling _signaling;
 
-    [SerializeField] private Signaling signaling;
-    private AudioSource _audioSurse;
+    private AudioSource _audioSurce;
+    private float _actualVolume = 0.0f;
+    private float _minVolume = 0.0f;
+    private float _maxVolume = 1.0f;
 
     void Start()
     {
-        if (GetComponent<AudioSource>() != null)
-            _audioSurse = /*this.gameObject.*/GetComponent<AudioSource>();
-
-        _audioSurse.volume = 0.0f;
-        _audioSurse.Play();
+        _audioSurce = GetComponent<AudioSource>();
+        _audioSurce.volume = _minVolume;
+        _audioSurce.Play();
     }
 
     void Update()
     {
-        if ((signaling._isAlarme == false) & (_volume <= 0.0f))
+        if ((_signaling.IsAlarme == false) & (_actualVolume <= _minVolume))
             return;
 
-        if (signaling._isAlarme == true)
+        if (_signaling.IsAlarme == true)
         {
-            if (_volume < 1)
-                _volume += _deltaTimeForVolume;
+            if (_actualVolume < _maxVolume)
+                _actualVolume += _deltaTimeForVolume;
         }
 
-        if (signaling._isAlarme == false)
+        if (_signaling.IsAlarme == false)
         {
-            if (_volume > 0)
-                _volume -= _deltaTimeForVolume;
+            if (_actualVolume > _minVolume)
+                _actualVolume -= _deltaTimeForVolume;
         }
 
-        _audioSurse.volume = _volume;
+        _audioSurce.volume = _actualVolume;
 
-        if (_volume <= 0.0f)
-            _audioSurse.Play();
+        if (_actualVolume <= _minVolume)
+            _audioSurce.Play();
     }
 }

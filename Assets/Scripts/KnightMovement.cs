@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
+
 public class KnightMovement : MonoBehaviour
 {
     [SerializeField] private float _runSpead = 500f;
@@ -13,14 +16,13 @@ public class KnightMovement : MonoBehaviour
 
     private Rigidbody2D _rigitbody2DKnight;
     private Animator _animator2DKnight;
-    private const string actSpeedX = "actSpeedX";
 
-    //_animator.SetBool(IsGrounded, value);
+    private const string ActualSpeedX = "actSpeedX";
 
     private void Start()
     {
-        _rigitbody2DKnight = this.gameObject.GetComponent<Rigidbody2D>();
-        _animator2DKnight = this.gameObject.GetComponent<Animator>();
+        _rigitbody2DKnight = GetComponent<Rigidbody2D>();
+        _animator2DKnight = GetComponent<Animator>();
     }
 
     private void Update()
@@ -45,7 +47,7 @@ public class KnightMovement : MonoBehaviour
         }
 
         position.x += actualSpeedX * Time.deltaTime;
-        _animator2DKnight.SetFloat(actSpeedX, actualSpeedX);
+        _animator2DKnight.SetFloat(ActualSpeedX, actualSpeedX);
 
         _rigitbody2DKnight.position = position;
     }

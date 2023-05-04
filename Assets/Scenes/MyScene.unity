@@ -668,9 +668,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd71c6a5c3c78d34d9c8cd740038bbf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _volume: 0
   _deltaTimeForVolume: 0.001
-  signaling: {fileID: 764955297}
+  _signaling: {fileID: 764955297}
 --- !u!1001 &780506533
 PrefabInstance:
   m_ObjectHideFlags: 0
