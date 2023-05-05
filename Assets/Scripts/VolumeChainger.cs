@@ -19,28 +19,37 @@ public class VolumeChainger : MonoBehaviour
         _audioSurce = GetComponent<AudioSource>();
         _audioSurce.volume = _minVolume;
         _audioSurce.Play();
+
+        StartCoroutine(ChangeVolume());
     }
 
-    void Update()
+    private IEnumerator ChangeVolume()
     {
-        if ((_signaling.IsAlarme == false) & (_actualVolume <= _minVolume))
-            return;
-
-        if (_signaling.IsAlarme == true)
+        while (true)
         {
-            if (_actualVolume < _maxVolume)
-                _actualVolume += _deltaTimeForVolume;
+            while ((_signaling.IsAlarme == true) | (_actualVolume > _minVolume))
+            {
+                if (_signaling.IsAlarme == true)
+                {
+                    if (_actualVolume < _maxVolume)
+                        _actualVolume += _deltaTimeForVolume;
+                }
+
+                if (_signaling.IsAlarme == false)
+                {
+                    if (_actualVolume > _minVolume)
+                        _actualVolume -= _deltaTimeForVolume;
+                }
+
+                _audioSurce.volume = _actualVolume;
+
+                if (_actualVolume <= _minVolume)
+                    _audioSurce.Play();
+
+                yield return null;
+            }
+
+            yield return null;
         }
-
-        if (_signaling.IsAlarme == false)
-        {
-            if (_actualVolume > _minVolume)
-                _actualVolume -= _deltaTimeForVolume;
-        }
-
-        _audioSurce.volume = _actualVolume;
-
-        if (_actualVolume <= _minVolume)
-            _audioSurce.Play();
     }
 }
