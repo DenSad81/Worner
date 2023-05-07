@@ -6,50 +6,67 @@ using UnityEngine;
 
 public class VolumeChainger : MonoBehaviour
 {
-    [SerializeField] private float _deltaTimeForVolume = 0.001f;
     [SerializeField] private Signaling _signaling;
 
     private AudioSource _audioSurce;
-    private float _actualVolume = 0.0f;
     private float _minVolume = 0.0f;
     private float _maxVolume = 1.0f;
+    private float _actualVolume;
+    private float _incrementDecrimentVolume = 0.001f;
+    private Coroutine _changeVolumeUp;
+    private Coroutine _changeVolumeDown;
 
-    void Start()
+    private void Start()
     {
         _audioSurce = GetComponent<AudioSource>();
         _audioSurce.volume = _minVolume;
-        _audioSurce.Play();
-
-        StartCoroutine(ChangeVolume());
     }
 
-    private IEnumerator ChangeVolume()
+    private void Update()
     {
-        while (true)
+        if (_signaling.EnemyIsInAreaOnImpulse)
         {
-            while ((_signaling.IsAlarme == true) | (_actualVolume > _minVolume))
-            {
-                if (_signaling.IsAlarme == true)
-                {
-                    if (_actualVolume < _maxVolume)
-                        _actualVolume += _deltaTimeForVolume;
-                }
+            if (_changeVolumeDown != null)
+                StopCoroutine(_changeVolumeDown);
 
-                if (_signaling.IsAlarme == false)
-                {
-                    if (_actualVolume > _minVolume)
-                        _actualVolume -= _deltaTimeForVolume;
-                }
+            _changeVolumeUp = StartCoroutine(ChangeVolumeUp());
+        }
 
-                _audioSurce.volume = _actualVolume;
+        if (_signaling.EnemyIsInAreaOffImpulse)
+        {
+            if (_changeVolumeUp != null)
+                StopCoroutine(_changeVolumeUp);
 
-                if (_actualVolume <= _minVolume)
-                    _audioSurce.Play();
+            _changeVolumeDown = StartCoroutine(ChangeVolumeDown());
+        }
+    }
 
-                yield return null;
-            }
+    private IEnumerator ChangeVolumeUp()
+    {
+        _audioSurce.Play();
 
+        while (_actualVolume < 1.0f)
+        {
+            _audioSurce.volume = Mathf.Lerp(_minVolume, _maxVolume, _actualVolume);
+            _actualVolume += _incrementDecrimentVolume;
             yield return null;
         }
     }
+
+    private IEnumerator ChangeVolumeDown()
+    {
+        while (_actualVolume > 0.0f)
+        {
+            _audioSurce.volume = Mathf.Lerp(_minVolume, _maxVolume, _actualVolume);
+            _actualVolume -= _incrementDecrimentVolume;
+            yield return null;
+        }
+
+        _audioSurce.Stop();
+    }
 }
+
+
+
+
+
