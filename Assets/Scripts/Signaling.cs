@@ -7,7 +7,8 @@ public class Signaling : MonoBehaviour
     [SerializeField] private float _alarmeLenghtZone = 9.0f;
 
     private bool _enemyIsInArea;
-    private bool _enemyIsInAreaMemory;
+    private bool _enemyIsInAreaMemoryOn;
+    private bool _enemyIsInAreaMemoryOff;
     public bool EnemyIsInAreaOnImpulse { get; private set; }
     public bool EnemyIsInAreaOffImpulse { get; private set; }
 
@@ -17,20 +18,10 @@ public class Signaling : MonoBehaviour
         _enemyIsInArea = Physics2D.Raycast(this.transform.position, transform.up, _alarmeLenghtZone);
         Debug.DrawRay(this.transform.position, transform.up * _alarmeLenghtZone, Color.red);
 
-        if (_enemyIsInArea == true & _enemyIsInAreaMemory == false)
-        {
-            EnemyIsInAreaOnImpulse = true;
-            _enemyIsInAreaMemory = true;
-        }
-        else
-            EnemyIsInAreaOnImpulse = false;
+        EnemyIsInAreaOnImpulse = _enemyIsInArea & (!_enemyIsInAreaMemoryOn);
+        _enemyIsInAreaMemoryOn = _enemyIsInArea;
 
-        if (_enemyIsInArea == false & _enemyIsInAreaMemory == true)
-        {
-            EnemyIsInAreaOffImpulse = true;
-            _enemyIsInAreaMemory = false;
-        }
-        else
-            EnemyIsInAreaOffImpulse = false;
+        EnemyIsInAreaOffImpulse = (!_enemyIsInArea) & _enemyIsInAreaMemoryOff;
+        _enemyIsInAreaMemoryOff = _enemyIsInArea;
     }
 }
