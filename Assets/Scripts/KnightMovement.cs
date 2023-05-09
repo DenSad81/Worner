@@ -11,13 +11,13 @@ using UnityEngine;
 
 public class KnightMovement : MonoBehaviour
 {
+    private const string ActualSpeedX = "actSpeedX";
+
     [SerializeField] private float _runSpead = 500f;
     [SerializeField] private float _walkSpead = 100f;
 
     private Rigidbody2D _rigitbody2DKnight;
     private Animator _animator2DKnight;
-
-    private const string ActualSpeedX = "actSpeedX";
 
     private void Start()
     {

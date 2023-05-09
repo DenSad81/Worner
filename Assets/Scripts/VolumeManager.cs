@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
 
-public class VolumeChainger : MonoBehaviour
+public class VolumeManager : MonoBehaviour
 {
     [SerializeField] private Signaling _signaling;
 
@@ -12,6 +12,8 @@ public class VolumeChainger : MonoBehaviour
     private float _minVolume = 0.0f;
     private float _maxVolume = 1.0f;
     private float _actualVolumeNormalized;
+    private float _minVolumeNormalized = 0.0f;
+    private float _maxVolumeNormalized = 1.0f;
     private float _incrementDecrimentVolume = 0.001f;
     private Coroutine _changeVolumeUp;
     private Coroutine _changeVolumeDown;
@@ -45,7 +47,7 @@ public class VolumeChainger : MonoBehaviour
     {
         _audioSurce.Play();
 
-        while (_actualVolumeNormalized < 1.0f)
+        while (_actualVolumeNormalized < _maxVolumeNormalized)
         {
             ChangeVolume();
             _actualVolumeNormalized += _incrementDecrimentVolume;
@@ -55,7 +57,7 @@ public class VolumeChainger : MonoBehaviour
 
     private IEnumerator ChangeVolumeDown()
     {
-        while (_actualVolumeNormalized > 0.0f)
+        while (_actualVolumeNormalized > _minVolumeNormalized)
         {
             ChangeVolume();
             _actualVolumeNormalized -= _incrementDecrimentVolume;
