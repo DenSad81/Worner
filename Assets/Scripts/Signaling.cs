@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Signaling : MonoBehaviour
 {
@@ -9,9 +10,11 @@ public class Signaling : MonoBehaviour
     private bool _enemyIsInArea;
     private bool _enemyIsInAreaMemoryOn;
     private bool _enemyIsInAreaMemoryOff;
+
     public bool EnemyIsInAreaOnImpulse { get; private set; }
     public bool EnemyIsInAreaOffImpulse { get; private set; }
 
+    public UnityEvent _eventChangeVolume = new UnityEvent();
 
     private void Update()
     {
@@ -23,5 +26,8 @@ public class Signaling : MonoBehaviour
 
         EnemyIsInAreaOffImpulse = (!_enemyIsInArea) & _enemyIsInAreaMemoryOff;
         _enemyIsInAreaMemoryOff = _enemyIsInArea;
+
+        if (EnemyIsInAreaOnImpulse || EnemyIsInAreaOffImpulse)
+            _eventChangeVolume.Invoke();
     }
 }

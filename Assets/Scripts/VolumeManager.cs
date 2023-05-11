@@ -6,70 +6,42 @@ using UnityEngine;
 
 public class VolumeManager : MonoBehaviour
 {
-    [SerializeField] private Signaling _signaling;
-
+    private Signaling _signaling;
     private AudioSource _audioSurce;
     private float _minVolume = 0.0f;
     private float _maxVolume = 1.0f;
-    private float _actualVolumeNormalized;
-    private float _minVolumeNormalized = 0.0f;
-    private float _maxVolumeNormalized = 1.0f;
-    private float _incrementDecrimentVolume = 0.001f;
-    private Coroutine _changeVolumeUp;
-    private Coroutine _changeVolumeDown;
 
     private void Start()
     {
         _audioSurce = GetComponent<AudioSource>();
         _audioSurce.volume = _minVolume;
-    }
 
-    private void Update()
-    {
-        if (_signaling.EnemyIsInAreaOnImpulse)
-        {
-            if (_changeVolumeDown != null)
-                StopCoroutine(_changeVolumeDown);
-
-            _changeVolumeUp = StartCoroutine(ChangeVolumeUp());
-        }
-
-        if (_signaling.EnemyIsInAreaOffImpulse)
-        {
-            if (_changeVolumeUp != null)
-                StopCoroutine(_changeVolumeUp);
-
-            _changeVolumeDown = StartCoroutine(ChangeVolumeDown());
-        }
-    }
-
-    private IEnumerator ChangeVolumeUp()
-    {
-        _audioSurce.Play();
-
-        while (_actualVolumeNormalized < _maxVolumeNormalized)
-        {
-            ChangeVolume();
-            _actualVolumeNormalized += _incrementDecrimentVolume;
-            yield return null;
-        }
-    }
-
-    private IEnumerator ChangeVolumeDown()
-    {
-        while (_actualVolumeNormalized > _minVolumeNormalized)
-        {
-            ChangeVolume();
-            _actualVolumeNormalized -= _incrementDecrimentVolume;
-            yield return null;
-        }
-
-        _audioSurce.Stop();
+        _signaling = GetComponent<Signaling>();
+        _signaling._eventChangeVolume.AddListener(ChangeVolume);
     }
 
     private void ChangeVolume()
     {
-        _audioSurce.volume = Mathf.Lerp(_minVolume, _maxVolume, _actualVolumeNormalized);
+        if (_signaling.EnemyIsInAreaOnImpulse)
+            StartCoroutine(CorutineChangeVolume(_maxVolume));
+
+        if (_signaling.EnemyIsInAreaOffImpulse)
+            StartCoroutine(CorutineChangeVolume(_minVolume));
+    }
+
+    private IEnumerator CorutineChangeVolume(float setpointVolume)
+    {
+        if (setpointVolume == _maxVolume)
+            _audioSurce.Play();
+
+        while (_audioSurce.volume != setpointVolume)
+        {
+            _audioSurce.volume = Mathf.MoveTowards(_audioSurce.volume, setpointVolume, Time.deltaTime);
+            yield return null;
+        }
+
+        if (setpointVolume == _minVolume)
+            _audioSurce.Stop();
     }
 }
 
