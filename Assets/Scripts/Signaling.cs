@@ -14,9 +14,9 @@ public class Signaling : MonoBehaviour
     public bool EnemyIsInAreaOnImpulse { get; private set; }
     public bool EnemyIsInAreaOffImpulse { get; private set; }
 
-    public UnityEvent _eventChangeVolume = new UnityEvent();
+    public UnityEvent EventChangeVolume = new UnityEvent();
 
-    private void Update()
+    private void FixedUpdate()
     {
         _enemyIsInArea = Physics2D.Raycast(this.transform.position, transform.up, _alarmeLenghtZone);
         Debug.DrawRay(this.transform.position, transform.up * _alarmeLenghtZone, Color.red);
@@ -28,6 +28,6 @@ public class Signaling : MonoBehaviour
         _enemyIsInAreaMemoryOff = _enemyIsInArea;
 
         if (EnemyIsInAreaOnImpulse || EnemyIsInAreaOffImpulse)
-            _eventChangeVolume.Invoke();
+            EventChangeVolume.Invoke();
     }
 }
