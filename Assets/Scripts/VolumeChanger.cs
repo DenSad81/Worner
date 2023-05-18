@@ -23,12 +23,12 @@ public class VolumeChanger : MonoBehaviour
     private void OnEnable()
     {
         _signaling = GetComponent<Signaling>();
-        _signaling.EventChangeVolume.AddListener(ChangeVolume);
+        _signaling.AddMetodInEvent(ChangeVolume);
     }
 
     private void OnDisable()
     {
-        _signaling.EventChangeVolume.RemoveListener(ChangeVolume);
+        _signaling.RemoveMetodInEvent(ChangeVolume);
     }
 
     private void ChangeVolume()

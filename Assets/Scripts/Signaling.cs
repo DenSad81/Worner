@@ -14,7 +14,7 @@ public class Signaling : MonoBehaviour
     public bool EnemyIsInAreaOnImpulse { get; private set; }
     public bool EnemyIsInAreaOffImpulse { get; private set; }
 
-    public UnityEvent EventChangeVolume = new UnityEvent();
+    private event UnityAction EventChangeVolume;
 
     private void FixedUpdate()
     {
@@ -29,5 +29,15 @@ public class Signaling : MonoBehaviour
 
         if (EnemyIsInAreaOnImpulse || EnemyIsInAreaOffImpulse)
             EventChangeVolume.Invoke();
+    }
+
+    public void AddMetodInEvent(UnityAction metod)
+    {
+        EventChangeVolume += metod;
+    }
+
+    public void RemoveMetodInEvent(UnityAction metod)
+    {
+        EventChangeVolume -= metod;
     }
 }
